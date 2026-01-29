@@ -2,6 +2,7 @@ import { globals } from '../configs/globals.js';
 import { log } from './log-util.js'
 import { Anime } from "../models/dandan-model.js";
 import { simpleHash } from "./codec-util.js";
+import { extractEpisodeNumberFromTitle } from "../utils/common-util.js";
 let fs, path;
 
 // =====================
@@ -277,10 +278,9 @@ export function storeAnimeIdsToMap(curAnimes, key) {
 // 根据给定的 commentId 查找对应的 animeId
 export function findAnimeIdByCommentId(commentId) {
   for (const anime of globals.animes) {
-    for (let i = 0; i < anime.links.length; i++) {
-      const link = anime.links[i];
+    for (const link of anime.links) {
       if (link.id === commentId) {
-        return [anime.animeId, anime.source, i + 1];
+        return [anime.animeId, anime.source, extractEpisodeNumberFromTitle(link.title)];
       }
     }
   }
