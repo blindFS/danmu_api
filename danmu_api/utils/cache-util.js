@@ -278,9 +278,10 @@ export function storeAnimeIdsToMap(curAnimes, key) {
 // 根据给定的 commentId 查找对应的 animeId
 export function findAnimeIdByCommentId(commentId) {
   for (const anime of globals.animes) {
-    for (const link of anime.links) {
+    for (let i = 0; i < anime.links.length; i++) {
+      const link = anime.links[i];
       if (link.id === commentId) {
-        return [anime.animeId, anime.source, extractEpisodeNumberFromTitle(link.title)];
+        return [anime.animeId, anime.source, extractEpisodeNumberFromTitle(link.title) || i + 1];
       }
     }
   }
